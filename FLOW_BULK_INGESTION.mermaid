@@ -1,0 +1,11 @@
+graph TD
+    A[Start: Bulk Upload/Folder Sync] --> B{AI Initial Scan}
+    B --> C[Extract Metadata: Resolution, Format, Date]
+    B --> D[Visual Content Analysis: Objects, Styles, Colors]
+    C & D --> E[Semantic Clustering]
+    E --> F[Generate Proposed Structure]
+    F --> G{User Review}
+    G -- "Looks Good" --> H[Commit to Library & Index]
+    G -- "Adjust Grouping" --> I[User Re-labels Cluster]
+    I --> H
+    H --> J[Final State: Searchable organized library]
