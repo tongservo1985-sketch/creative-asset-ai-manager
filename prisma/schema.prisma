@@ -1,0 +1,78 @@
+// This is the database schema for Creator Asset AI
+// It supports traditional metadata and vector embeddings for semantic search
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Asset {
+  id              String           @id @default(uuid())
+  filename        String
+  originalName    String
+  s3Key           String           @unique
+  mimeType        String
+  fileSize        Int
+  metadata        Json?            // Technical specs like resolution, bitrate, etc.
+  status          AssetStatus      @default(PENDING)
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  // AI Generated Content
+  tags            AssetTag[]
+  embeddings      VectorEmbedding?
+  
+  // Relationships
+  projectId       String?
+  userId          String
+}
+
+enum AssetStatus {
+  PENDING      // Uploaded but not processed
+  PROCESSING   // AI pipeline is running
+  COMPLETED    // Tags and embeddings generated
+  FAILED       // Error in pipeline
+}
+
+model Tag {
+  id        String     @id @default(uuid())
+  name      String     @unique
+  assets    AssetTag[]
+}
+
+model AssetTag {
+  assetId   String
+  tagId     String
+  asset     Asset      @relation(fields: [assetId], references: [id])
+  tag       Tag        @relation(fields: [tagId], references: [id])
+
+  @@id([assetId, tagId])
+}
+
+model VectorEmbedding {
+  assetId   String   @id
+  asset     Asset    @relation(fields: [assetId], references: [id])
+  // Using 'Unsupported' for pgvector column
+  embedding Unsupported("vector(512)")? 
+}
+
+model Job {
+  id          String    @id @default(uuid())
+  assetId     String
+  taskType    String    // e.g., "CLIP_EMBEDDING", "AUTO_TAGGING"
+  status      JobStatus @default(QUEUED)
+  errorLog    String?
+  startedAt   DateTime?
+  completedAt DateTime?
+}
+
+enum JobStatus {
+  QUEUED
+  ACTIVE
+  COMPLETED
+  FAILED
+}
