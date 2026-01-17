@@ -1,0 +1,13 @@
+sequenceDiagram
+    participant C as Creator (Desktop/App)
+    participant S as AI Sync Engine
+    participant L as Organized Library
+
+    C->>S: Saves file to "Smart Inbox"
+    S->>S: Analyze: Visual context + Client history
+    S-->>C: Notification: "Stored in [Client X] > [Assets] with tags: #blue, #minimalist"
+    alt User disagrees
+        C->>S: Manual override folder/tag
+    end
+    S->>L: Update Vector Index & Database
+    L-->>C: Asset available for instant search
