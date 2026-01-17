@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  # Message Broker for task distribution
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+  # Primary Database with Vector support
+  postgres:
+    image: ankane/pgvector:latest
+    environment:
+      POSTGRES_DB: creator_asset_ai
+      POSTGRES_PASSWORD: architecture_secure_pass
+    ports:
+      - "5432:5432"
+
+  # Media Ingestion Service
+  ingestion-api:
+    build: ./services/ingestion
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - DATABASE_URL=postgresql://postgres:architecture_secure_pass@postgres:5432/creator_asset_ai
+    ports:
+      - "8080:8080"
+    depends_on:
+      - redis
+      - postgres
+
+  # AI Worker Node (Simulated)
+  ai-worker:
+    build: ./workers/media-processor
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - AWS_S3_BUCKET=creator-assets-raw
+    depends_on:
+      - redis
