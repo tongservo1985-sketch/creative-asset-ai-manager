@@ -1,0 +1,27 @@
+graph TD
+    User((Creator/Freelancer)) -->|Upload Request| API[API Gateway]
+    API -->|Pre-signed URL| S3_Raw[(S3 Raw Assets)]
+    User -->|Direct Upload| S3_Raw
+    
+    S3_Raw -->|Event Trigger| SNS[SNS/EventBridge]
+    SNS -->|Queue Message| SQS[Processing Queue]
+    
+    subgraph "Processing Cluster"
+        WorkerMgr[Task Orchestrator]
+        W1[Image AI Worker]
+        W2[Video/Audio Worker]
+        W3[Embedding Worker]
+    end
+    
+    SQS --> WorkerMgr
+    WorkerMgr --> W1
+    WorkerMgr --> W2
+    WorkerMgr --> W3
+    
+    W1 & W2 & W3 --> DB[(PostgreSQL + pgvector)]
+    W3 --> VectorDB[(Pinecone/Milvus)]
+    
+    W1 & W2 --> S3_Proc[(S3 Processed/Proxies)]
+    
+    DB --> API
+    API -->|Real-time Updates| User
