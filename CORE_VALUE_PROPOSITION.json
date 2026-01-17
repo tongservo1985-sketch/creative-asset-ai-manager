@@ -1,0 +1,34 @@
+{
+  "product_name": "Creator Asset AI",
+  "tagline": "From Chaos to Creation.",
+  "target_audience": [
+    "Freelance Graphic Designers",
+    "Video Editors",
+    "3D Artists",
+    "Content Creators",
+    "Agency Art Directors"
+  ],
+  "core_values": [
+    {
+      "title": "Automated Contextual Tagging",
+      "description": "AI analyzes visual content, color palettes, and stylistic elements to create searchable metadata instantly.",
+      "benefit": "No more naming files 'final_final_v2.png'."
+    },
+    {
+      "title": "Natural Language Semantic Search",
+      "description": "Find files using descriptions like 'that moody blue landscape from the summer project' instead of keywords.",
+      "benefit": "Intuitive retrieval that matches how creators think."
+    },
+    {
+      "title": "Smart Version Control",
+      "description": "Visual diffing and automatic version stacking for creative files (PSD, AI, BLEND).",
+      "benefit": "Prevents data loss and simplifies client revision tracking."
+    },
+    {
+      "title": "Automated License & Usage Tracking",
+      "description": "Tracks where assets are used and their licensing status (stock photos, fonts, etc.).",
+      "benefit": "Reduces legal risk and simplifies project handovers."
+    }
+  ],
+  "competitive_advantage": "Unlike generic cloud storage (Dropbox/Drive), we provide deep creative-context awareness specifically tuned for high-fidelity media and artistic workflows."
+}
