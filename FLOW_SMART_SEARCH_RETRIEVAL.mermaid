@@ -1,0 +1,11 @@
+graph LR
+    A[User Query: Natural Language] --> B[NLP Parser]
+    B --> C{Contextual Search}
+    C --> D[Visual Similarity Search]
+    C --> E[Project History Search]
+    C --> F[Metadata/Tag Search]
+    D & E & F --> G[Ranked Results with Visual Previews]
+    G --> H{User Action}
+    H -- "Found It" --> I[One-Click Open in Creative App]
+    H -- "Too Many Results" --> J[Filter by Color/Date/License]
+    J --> G
